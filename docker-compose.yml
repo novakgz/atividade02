@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  atv02-nw:
+    driver: bridge
+
+services:
+  db:
+    image: mysql
+    restart: always
+    networks:
+      - atv02-nw
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=atv02
+      - MYSQL_TCP_PORT=3306
+      
+  webserver:
+    image: nginx
+    restart: always
+    networks:
+      - atv02-nw
+    ports:
+      - 80:80
+    depends_on:
+      - db
